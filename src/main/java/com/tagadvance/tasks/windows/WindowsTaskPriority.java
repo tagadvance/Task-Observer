@@ -10,11 +10,6 @@ import com.tagadvance.tasks.TaskPriority;
 
 public class WindowsTaskPriority implements TaskPriority {
 
-	/**
-	 * @see https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880(v=vs.85).aspx
-	 */
-	public static final int PROCESS_SET_INFORMATION = 0x0200;
-	
 	private static final int IDLE_PRIORITY_CLASS = 0x0040;
 	private static final int BELOW_NORMAL_PRIORITY_CLASS = 0x4000;
 	private static final int NORMAL_PRIORITY_CLASS = 0x0020;
@@ -31,8 +26,23 @@ public class WindowsTaskPriority implements TaskPriority {
 
 	@Override
 	public Priority getPriority(Task task) throws TaskException {
-		// TODO Auto-generated method stub
-		return null;
+		final int processId = task.getId();
+
+		int fdwAccess = ProcessSecurity.PROCESS_QUERY_INFORMATION ;
+		boolean fInherit = false;
+		HANDLE hProcess = null;
+		try {
+			hProcess = kernel32.OpenProcess(fdwAccess, fInherit, processId);
+			int priorityClass = kernel32.GetPriorityClass(hProcess);
+			if (priorityClass == 0) {
+				throw new TaskException("could not get priority");
+			}
+			return calculatePriority(priorityClass);
+		} finally {
+			if (hProcess != null) {
+				kernel32.CloseHandle(hProcess);
+			}
+		}
 	}
 
 	@Override
@@ -40,7 +50,7 @@ public class WindowsTaskPriority implements TaskPriority {
 		final int processId = task.getId();
 		int dwPriorityClass = calculatePriorityClass(priority);
 
-		int fdwAccess = PROCESS_SET_INFORMATION;
+		int fdwAccess = ProcessSecurity.PROCESS_SET_INFORMATION;
 		boolean fInherit = false;
 		HANDLE hProcess = null;
 		try {
@@ -55,7 +65,7 @@ public class WindowsTaskPriority implements TaskPriority {
 			}
 		}
 	}
-	
+
 	/**
 	 * TODO: unit test
 	 * 
@@ -76,6 +86,29 @@ public class WindowsTaskPriority implements TaskPriority {
 				return REALTIME_PRIORITY_CLASS;
 			default:
 				return NORMAL_PRIORITY_CLASS;
+		}
+	}
+	
+	/**
+	 * TODO: unit test
+	 * 
+	 * @param priorityClass
+	 * @return
+	 */
+	public Priority calculatePriority(int priorityClass) {
+		switch (priorityClass) {
+			case IDLE_PRIORITY_CLASS:
+				return Priority.IDLE;
+			case BELOW_NORMAL_PRIORITY_CLASS:
+				return Priority.LOW;
+			case ABOVE_NORMAL_PRIORITY_CLASS:
+				return Priority.MEDIUM;
+			case HIGH_PRIORITY_CLASS:
+				return Priority.HIGH;
+			case REALTIME_PRIORITY_CLASS:
+				return Priority.REALTIME;
+			default:
+				return Priority.DEFAULT;
 		}
 	}
 

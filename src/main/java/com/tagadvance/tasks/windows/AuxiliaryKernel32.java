@@ -12,6 +12,14 @@ public interface AuxiliaryKernel32 extends Kernel32 {
 	/**
 	 * 
 	 * @param hProcess
+	 * @return
+	 * @see https://msdn.microsoft.com/en-us/library/windows/desktop/ms683211(v=vs.85).aspx
+	 */
+	public int GetPriorityClass(HANDLE hProcess);
+	
+	/**
+	 * 
+	 * @param hProcess
 	 * @param dwPriorityClass
 	 * @return
 	 * @see https://msdn.microsoft.com/en-us/library/windows/desktop/ms686219(v=vs.85).aspx

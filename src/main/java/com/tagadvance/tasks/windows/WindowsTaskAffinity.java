@@ -10,12 +10,6 @@ import com.tagadvance.tasks.TaskException;
 
 public class WindowsTaskAffinity implements TaskAffinity {
 
-	/**
-	 * @see https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880(v=vs.85).aspx
-	 */
-	public static final int PROCESS_SET_INFORMATION = 0x0200;
-	public static final int PROCESS_QUERY_INFORMATION = 0x0400;
-
 	private final AuxiliaryKernel32 kernel32;
 
 	public WindowsTaskAffinity(AuxiliaryKernel32 kernel32) {
@@ -27,7 +21,7 @@ public class WindowsTaskAffinity implements TaskAffinity {
 	public long getAffinityMask(final Task task) throws TaskException {
 		final int processId = task.getId();
 
-		int fdwAccess = PROCESS_QUERY_INFORMATION;
+		int fdwAccess = ProcessSecurity.PROCESS_QUERY_INFORMATION;
 		boolean fInherit = false;
 		HANDLE hProcess = null;
 		try {
@@ -62,7 +56,7 @@ public class WindowsTaskAffinity implements TaskAffinity {
 	public void setAffinityMask(final Task process, long affinityMask) throws TaskException {
 		final int processId = process.getId();
 
-		int fdwAccess = PROCESS_SET_INFORMATION;
+		int fdwAccess = ProcessSecurity.PROCESS_SET_INFORMATION;
 		boolean fInherit = false;
 		HANDLE hProcess = null;
 		try {
