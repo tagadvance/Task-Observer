@@ -26,7 +26,7 @@ public class WindowsTaskManager implements TaskManager {
 		return new ProcessIterator();
 	}
 
-	class ProcessIterator implements Iterator<Task> {
+	private class ProcessIterator implements Iterator<Task> {
 
 		private WinNT.HANDLE snapshot;
 		private Tlhelp32.PROCESSENTRY32.ByReference processEntry;
@@ -48,6 +48,8 @@ public class WindowsTaskManager implements TaskManager {
 				int processId = processEntry.th32ProcessID.intValue();
 				String fileName = Native.toString(processEntry.szExeFile);
 				next = new Task(processId, fileName);
+				int parentId = processEntry.th32ParentProcessID.intValue();
+				next.setParentId(parentId);
 			} else {
 				next = null;
 				kernel32.CloseHandle(snapshot);

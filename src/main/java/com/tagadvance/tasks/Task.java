@@ -6,8 +6,9 @@ public class Task {
 
 	private final int id;
 	private final String name;
-	// TODO: parent task
-	// TODO: additional properties 
+
+	private int parentId = -1;
+	// TODO: additional properties
 
 	public Task(int id, String name) {
 		super();
@@ -23,10 +24,18 @@ public class Task {
 		return name;
 	}
 
+	public int getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
+	}
+
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(getClass()).add("id", this.id).add("name", this.name)
-				.toString();
+				.add("parentId", this.parentId).toString();
 	}
 
 }
