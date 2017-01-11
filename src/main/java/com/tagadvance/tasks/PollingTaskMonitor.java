@@ -21,6 +21,9 @@ import com.tagadvance.poll.PollScheduler;
  * <a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff554836(v=vs.85).aspx">user
  * mode</a>. Apparently one can use Windows Management Instrumentation (WMI). Yuck. That leaves us
  * with polling. Yay.
+ * 
+ * @see http://stackoverflow.com/questions/3556048/how-to-detect-win32-process-creation-termination-in-c
+ * @see https://forum.sysinternals.com/process-creation-notification_topic14823.html
  */
 public class PollingTaskMonitor implements TaskMonitor {
 
