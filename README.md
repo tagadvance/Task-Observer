@@ -31,10 +31,8 @@ public class Foo {
 
 	public static void main(String[] args) {
 		TaskManager manager = new WindowsTaskManager(Kernel32.INSTANCE);
-		ThreadFactory threadFactory = new ThreadFactoryBuilder().setDaemon(false)
-				.setNameFormat("task-monitor-%d").build();
-		final ScheduledExecutorService service =
-				Executors.newSingleThreadScheduledExecutor(threadFactory);
+		ThreadFactory threadFactory = new ThreadFactoryBuilder().setDaemon(false).setNameFormat("task-monitor-%d").build();
+		final ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(threadFactory);
 		PollScheduler scheduler = new PollScheduler() {
 			@Override
 			public void schedule(PollAction poll) {
