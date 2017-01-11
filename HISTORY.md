@@ -95,4 +95,4 @@ In a dedicated 4 core affinity configuration, there were two main threads observ
 
 In Conclusion
 ===
-I **strongly** recommend that you let the scheduler do its job. Close extraneous processes (I'm looking at you, Chrome). Look, these results are far from scientific. Your mileage may vary.
+I **strongly** recommend that you let the scheduler do its job. Close extraneous processes (I'm looking at you, Chrome). These results are far from scientific. Your mileage may vary.
