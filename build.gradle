@@ -16,7 +16,9 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
+	version = '1.7.21'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: version
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: version
     
     // https://mvnrepository.com/artifact/net.java.dev.jna/jna
     compile group: 'net.java.dev.jna', name: 'jna', version: '4.2.2'
