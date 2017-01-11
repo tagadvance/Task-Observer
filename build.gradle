@@ -31,3 +31,16 @@ dependencies {
     
     testCompile group: 'com.google.guava', name: 'guava-testlib', version: '20.0'
 }
+
+jar {
+    manifest {
+        attributes 'Built-Date': new Date(), 'Built-JDK': System.getProperty('java.version'), 'Main-Class': 'com.tagadvance.fps.Fps', 'Class-Path': configurations.compile.collect { it.getName() }.join(' ')
+    }
+}
+
+task copyDependencies(type: Copy) {
+    into "$buildDir/libs"
+    from configurations.runtime
+}
+
+build.dependsOn(copyDependencies)
