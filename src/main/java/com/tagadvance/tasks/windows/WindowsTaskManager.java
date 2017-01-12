@@ -26,6 +26,11 @@ public class WindowsTaskManager implements TaskManager {
 		return new ProcessIterator();
 	}
 
+	/**
+	 * 
+	 * @see http://stackoverflow.com/q/16667557/625688
+	 * @see http://stackoverflow.com/a/13478508/625688
+	 */
 	private class ProcessIterator implements Iterator<Task> {
 
 		private WinNT.HANDLE snapshot;
