@@ -46,3 +46,7 @@ public class Foo {
 
 }
 ```
+
+Similar Projects
+---
+[JavaSysMon](https://github.com/jezhumble/javasysmon)
